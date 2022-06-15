@@ -1,4 +1,4 @@
-module hlinfoPoh
+module github.com/hlinfo/hlinfoPoh
 
 go 1.16
 
