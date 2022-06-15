@@ -8,7 +8,7 @@
 package routers
 
 import (
-	"hlinfoPoh/controllers"
+	"github.com/hlinfocc/hlinfoPoh/controllers"
 
 	"github.com/astaxie/beego"
 )

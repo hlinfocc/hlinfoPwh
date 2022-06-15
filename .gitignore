@@ -1,0 +1,16 @@
+
+_testmain.go
+*.json
+test/
+
+*.exe
+*.test
+*.prof
+.idea
+/conf/app.conf
+*.log
+logs/*
+
+lastupdate.tmp
+routers/commentsRouter_controllers.go
+hlinfoPoh
