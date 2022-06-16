@@ -14,7 +14,10 @@ import (
 )
 
 func init() {
-	ns := beego.NewNamespace("/v1",
+	beego.Router("/", &controllers.MainController{})
+	beego.Router("/api/navMenu", &controllers.MainController{}, "Get:NavMenu")
+	beego.Router("/api/clearCache", &controllers.MainController{}, "Get:ClearCache")
+	ns := beego.NewNamespace("/api",
 		beego.NSNamespace("/object",
 			beego.NSInclude(
 				&controllers.ObjectController{},
