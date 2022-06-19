@@ -12,9 +12,9 @@ import (
 // 初始化数据库连接
 func RegisterDataBase() {
 	//获取数据库类型，用于今后兼容多个数据库用
-	dbtype := beego.AppConfig.DefaultString("datasource.type", "sqlite")
-	host := beego.AppConfig.DefaultString("datasource:host", "localhost")
-	port := beego.AppConfig.DefaultInt("datasource:port", 5432)
+	dbtype := beego.AppConfig.DefaultString("datasource::type", "sqlite")
+	host := beego.AppConfig.DefaultString("datasource::host", "127.0.0.1")
+	port := beego.AppConfig.DefaultInt("datasource::port", 5432)
 	username := beego.AppConfig.DefaultString("datasource::username", "postgres")
 	dbname := beego.AppConfig.String("datasource::dbname")
 	password := beego.AppConfig.String("datasource::password")
@@ -30,13 +30,13 @@ func RegisterDataBase() {
 		}
 	} else if dbtype == "sqlite" {
 		orm.RegisterDriver("sqlite3", orm.DRSqlite)
-		orm.RegisterDataBase("default", "sqlite3", "./data/poh.db")
+		orm.RegisterDataBase("default", "sqlite3", "./data/pwh.db")
 		if runmode == "dev" || runmode == "test" {
 			orm.Debug = true
 		}
 	} else {
 		//mysql等数据库以后在扩展
-		errors.New("暂不支持PostgreSQL以外的数据库")
+		errors.New("暂不支持PostgreSQL及sqlite以外的数据库")
 	}
 }
 
@@ -99,15 +99,13 @@ func RegisterInitConfig() {
 	beego.BConfig.Listen.HTTPAddr = sysHttpAddr
 }
 
-// RegisterModel 注册Model
-/*func RegisterModel() {
-	orm.RegisterModel(
-		new(models.WebVisitLog),
-	)
-}*/
+// 初始化数据库
+func InitDatabases() {
+	orm.RunSyncdb("default", false, true)
+}
 
 func InitSys() {
 	RegisterInitConfig()
 	RegisterDataBase()
-	//RegisterModel()
+	InitDatabases()
 }

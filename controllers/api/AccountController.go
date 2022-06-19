@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/hlinfocc/hlinfoPoh/models"
+	"github.com/hlinfocc/hlinfoPwh/models"
 
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"

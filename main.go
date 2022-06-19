@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/hlinfocc/hlinfoPoh/etc"
-	_ "github.com/hlinfocc/hlinfoPoh/routers"
+	"github.com/hlinfocc/hlinfoPwh/etc"
+	_ "github.com/hlinfocc/hlinfoPwh/routers"
 
+	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 
 	"github.com/astaxie/beego"

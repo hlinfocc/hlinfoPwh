@@ -1,6 +1,6 @@
-# hlinfoPoh
+# hlinfoPwh
 项目工作助手
 
 
-## 启动
+## 开发模式启动
 bee run -gendoc=true -downdoc=true

@@ -14,17 +14,17 @@ type WebVisitLog struct {
 	VisitBrowser  string    `orm:"column(visit_browser);null;type(text)"`
 	VisitIpinfo   string    `orm:"column(visit_ipinfo);null;type(text)"`
 	VisitUsercode string    `orm:"column(visit_usercode);null;type(text)"`
-	VisitOs       string    `orm:"column(visit_os);null;type(text)"`
+	VisitOs       string    `orm:"column(visit_os);null;size(100)"`
 }
 
 type AdminList struct {
 	Id            int       `orm:"auto;pk"`
-	RealName      string    `orm:"column(real_name)"`
-	Account       string    `orm:"column(account)"`
-	AdminLoginPwd string    `orm:"column(admin_login_pwd)"`
+	RealName      string    `orm:"column(real_name);type(text)"`
+	Account       string    `orm:"column(account);type(text)"`
+	AdminLoginPwd string    `orm:"column(admin_login_pwd);type(text)"`
 	AdminLevel    int       `orm:"column(admin_level);default(0)"`
 	LoginTimes    int       `orm:"column(login_times);default(0)"`
-	Enabled       bool      `orm:"column(enabled);default(true)"`
+	Enabled       int       `orm:"column(enabled);default(0)"`
 	LastLoginTime time.Time `orm:"column(last_login_time)"`
 	Lastip        string    `orm:"column(lastip)"`
 	ThatLoginTime time.Time `orm:"column(that_login_time)"`
@@ -36,11 +36,11 @@ type AdminList struct {
 
 type OperateLogs struct {
 	Id        int64     `orm:"auto;pk"`
-	Account   string    `orm:"column(account)"`
-	Opname    string    `orm:"column(opname)"`
+	Account   string    `orm:"column(account);type(text)"`
+	Opname    string    `orm:"column(opname);type(text)"`
 	Optype    int       `orm:"column(optype);default(0)"`
 	OpAppType int       `orm:"column(op_app_type);default(2)"`
-	Opdetail  string    `orm:"column(opdetail)"`
+	Opdetail  string    `orm:"column(opdetail);type(text)"`
 	Opip      string    `orm:"column(opip)"`
 	Optime    time.Time `orm:"auto_now_add;type(datetime)"`
 }

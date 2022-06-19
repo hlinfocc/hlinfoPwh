@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/hlinfocc/hlinfoPoh/models"
+	"github.com/hlinfocc/hlinfoPwh/models"
 
 	"github.com/astaxie/beego"
 )
