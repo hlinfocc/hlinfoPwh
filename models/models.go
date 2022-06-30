@@ -49,3 +49,10 @@ func init() {
 	// 需要在init中注册定义的model
 	orm.RegisterModel(new(WebVisitLog), new(AdminList), new(OperateLogs))
 }
+
+func (that *AdminList) Fetch(id int) (wr *AdminList) {
+	wr.Id = id
+	o := orm.NewOrm()
+	o.Read(&wr)
+	return wr
+}

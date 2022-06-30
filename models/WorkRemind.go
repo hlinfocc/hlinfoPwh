@@ -4,13 +4,14 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
+	uuid "github.com/satori/go.uuid"
 )
 
 /*
 *工作提醒表
  */
 type WorkRemind struct {
-	Id          string    `orm:"size(32);pk"`
+	Id          string    `orm:"size(36);pk"`
 	Memeid      int64     `orm:"column(memeid)" description:"用户id"`
 	Title       string    `orm:"column(title);type(text)" description:"标题"`
 	Status      int       `orm:"column(status);size(int);default(0)" description:"状态:0正常,1不再提醒"`
@@ -22,7 +23,7 @@ type WorkRemind struct {
 	ExpiresTime time.Time `orm:"column(expires_time);type(datetime)" description:"到期时间"`
 	Createtime  time.Time `orm:"auto_now_add;type(datetime)" description:"创建时间"`
 	Updatetime  time.Time `orm:"auto_now;type(datetime)" description:"最后更新时间"`
-	Delete_time time.Time `orm:"column(delete_time);null" description:"删除标志"`
+	DeleteTime  time.Time `orm:"column(delete_time);null" description:"删除标志"`
 }
 
 func init() {
@@ -31,7 +32,7 @@ func init() {
 }
 
 // 查询主机列表，首字母大写（public）
-func QueryList(limit int, page int, memid int64, status int, keywords string) ([]*WorkRemind, int64, error) {
+func QueryWrList(limit int, page int, memid int64, status int, keywords string) ([]*WorkRemind, int64, error) {
 	if page == 0 {
 		page = 1
 	}
@@ -44,7 +45,7 @@ func QueryList(limit int, page int, memid int64, status int, keywords string) ([
 	cnd := orm.NewCondition()
 	host := new(WorkRemind)
 	qs := o.QueryTable(host) // 返回 QuerySeter
-	cnd2 := cnd.And("Istrash", 0)
+	cnd2 := cnd.And("DeleteTime__isnull", false)
 	if status >= 0 && status <= 2 {
 		cnd2.And("Status", status)
 	}
@@ -70,9 +71,16 @@ func QueryList(limit int, page int, memid int64, status int, keywords string) ([
 	return lists, total, nil
 }
 
-func (that *WorkRemind) Fetch(id string) (wr *WorkRemind) {
+func FetchWr(id string) (wr *WorkRemind) {
 	wr.Id = id
 	o := orm.NewOrm()
 	o.Read(&wr)
 	return wr
+}
+
+func WorkRemindSave(wr WorkRemind) (err error) {
+	sysid := uuid.NewV4()
+	wr.Id = sysid.String()
+	_, err = orm.NewOrm().Insert(&wr)
+	return
 }

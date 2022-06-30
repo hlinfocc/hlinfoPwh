@@ -34,3 +34,10 @@ func init() {
 	// 需要在init中注册定义的model
 	orm.RegisterModel(new(MemberInfo))
 }
+
+func FetchMember(id int64) (wr *MemberInfo) {
+	wr.Id = id
+	o := orm.NewOrm()
+	o.Read(&wr)
+	return wr
+}

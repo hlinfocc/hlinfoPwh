@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 var (
@@ -83,4 +85,11 @@ func Login(username, password string) bool {
 
 func DeleteUser(uid string) {
 	delete(UserList, uid)
+}
+
+func FetchUser(id string) (wr *User) {
+	wr.Id = id
+	o := orm.NewOrm()
+	o.Read(&wr)
+	return wr
 }
