@@ -28,6 +28,11 @@ func init() {
 				&controllers.UserController{},
 			),
 		),
+		beego.NSNamespace("/workRemind",
+			beego.NSInclude(
+				&controllers.WorkRemindController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

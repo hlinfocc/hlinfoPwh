@@ -2,11 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/hlinfocc/hlinfoPwh/models"
 )
 
-// Operations about Users
+// Operations about WorkRemind
 type WorkRemindController struct {
 	BaseController
 }
@@ -20,18 +21,21 @@ type WorkRemindController struct {
 func (u *WorkRemindController) Post() {
 	var wr models.WorkRemind
 	json.Unmarshal(u.Ctx.Input.RequestBody, &wr)
+	fmt.Println(wr.StartTime)
+	fmt.Println(wr.ExpiresTime)
 	err := models.WorkRemindSave(wr)
-	if err != nil {
+	fmt.Println(err)
+	if err == nil {
 		u.Success("操作成功", 1, &wr)
 	} else {
-		u.Failed("保存失败")
+		u.Error("保存失败", err.Error())
 	}
 }
 
-// @Title GetAll
+// @Title List
 // @Description 列表查询
 // @Success 200 {object} models.WorkRemind
-// @router / [get]
+// @router /list [get]
 func (that *WorkRemindController) List() {
 	page, _ := that.GetInt("page", 1)
 	limit, _ := that.GetInt("limit", 20)
@@ -59,10 +63,10 @@ func (u *WorkRemindController) Get() {
 }
 
 // @Title Update
-// @Description update the user
+// @Description update the WorkRemind
 // @Param	uid		path 	string	true		"The uid you want to update"
-// @Param	body		body 	models.User	true		"body for user content"
-// @Success 200 {object} models.User
+// @Param	body		body 	models.WorkRemind	true		"body for WorkRemind content"
+// @Success 200 {object} models.WorkRemind
 // @Failure 403 :uid is not int
 // @router /:uid [put]
 func (u *WorkRemindController) Put() {
@@ -81,7 +85,7 @@ func (u *WorkRemindController) Put() {
 }
 
 // @Title Delete
-// @Description delete the user
+// @Description delete the WorkRemind
 // @Param	uid		path 	string	true		"The uid you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 uid is empty

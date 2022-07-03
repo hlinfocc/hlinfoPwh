@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -21,7 +22,6 @@ func RegisterDataBase() {
 	runmode := beego.AppConfig.String("runmode")
 
 	if dbtype == "" || dbtype == "pgsql" || dbtype == "postgresql" {
-
 		orm.RegisterDriver("postgres", orm.DRPostgres)
 		dataSource := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, username, password, dbname)
 		orm.RegisterDataBase("default", "postgres", dataSource)
@@ -29,6 +29,7 @@ func RegisterDataBase() {
 			orm.Debug = true
 		}
 	} else if dbtype == "sqlite" {
+		orm.DefaultTimeLoc = time.UTC
 		orm.RegisterDriver("sqlite3", orm.DRSqlite)
 		orm.RegisterDataBase("default", "sqlite3", "./data/pwh.db")
 		if runmode == "dev" || runmode == "test" {

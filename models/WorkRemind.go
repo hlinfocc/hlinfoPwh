@@ -13,14 +13,14 @@ import (
 type WorkRemind struct {
 	Id          string    `orm:"size(36);pk"`
 	Memeid      int64     `orm:"column(memeid)" description:"用户id"`
-	Title       string    `orm:"column(title);type(text)" description:"标题"`
+	Title       string    `orm:"column(title);type(text)" description:"标题" valid:"Required;"`
 	Status      int       `orm:"column(status);size(int);default(0)" description:"状态:0正常,1不再提醒"`
 	WrType      int       `orm:"column(wr_type);size(int);default(0)" description:"资源类型:0日常事件,1服务器,2域名"`
 	HostInfo    string    `orm:"column(host_info);null;type(text)" description:"主机IP或域名"`
 	Detail      string    `orm:"column(detail);null;type(text)" description:"详情"`
 	Remarks     string    `orm:"column(remarks);null;type(text)" description:"备注"`
-	StartTime   time.Time `orm:"column(start_time);type(datetime)" description:"开始时间"`
-	ExpiresTime time.Time `orm:"column(expires_time);type(datetime)" description:"到期时间"`
+	StartTime   time.Time `orm:"column(start_time);type(datetime)" description:"开始时间" json:"StartTime"`
+	ExpiresTime time.Time `orm:"column(expires_time);type(datetime)" description:"到期时间" json:"ExpiresTime"`
 	Createtime  time.Time `orm:"auto_now_add;type(datetime)" description:"创建时间"`
 	Updatetime  time.Time `orm:"auto_now;type(datetime)" description:"最后更新时间"`
 	DeleteTime  time.Time `orm:"column(delete_time);null" description:"删除标志"`
@@ -82,5 +82,5 @@ func WorkRemindSave(wr WorkRemind) (err error) {
 	sysid := uuid.NewV4()
 	wr.Id = sysid.String()
 	_, err = orm.NewOrm().Insert(&wr)
-	return
+	return err
 }
