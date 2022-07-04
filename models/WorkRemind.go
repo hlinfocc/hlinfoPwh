@@ -45,7 +45,7 @@ func QueryWrList(limit int, page int, memid int64, status int, keywords string) 
 	cnd := orm.NewCondition()
 	host := new(WorkRemind)
 	qs := o.QueryTable(host) // 返回 QuerySeter
-	cnd2 := cnd.And("DeleteTime__isnull", false)
+	cnd2 := cnd.And("DeleteTime__isnull", true)
 	if status >= 0 && status <= 2 {
 		cnd2.And("Status", status)
 	}
@@ -72,10 +72,10 @@ func QueryWrList(limit int, page int, memid int64, status int, keywords string) 
 }
 
 func FetchWr(id string) (wr *WorkRemind) {
-	wr.Id = id
+	wrParam := WorkRemind{Id: id}
 	o := orm.NewOrm()
-	o.Read(&wr)
-	return wr
+	o.Read(&wrParam)
+	return &wrParam
 }
 
 func WorkRemindSave(wr WorkRemind) (err error) {

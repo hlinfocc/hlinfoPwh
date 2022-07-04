@@ -70,7 +70,7 @@ func getLocalIp() string {
 // 初始化配置
 func RegisterInitConfig() {
 	// 应用名称
-	beego.BConfig.AppName = "hlinfoPoh"
+	beego.BConfig.AppName = "hlinfoPwh"
 	//Flash 数据设置时 Cookie 的名称，
 	beego.BConfig.WebConfig.FlashName = "HLINFOPOH_FLASH"
 	// Flash 数据的分隔符

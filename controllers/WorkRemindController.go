@@ -33,6 +33,10 @@ func (u *WorkRemindController) Post() {
 }
 
 // @Title List
+// @Param	page	query	int4	true	"分页页码"
+// @Param	limit	query	int4	true	"分页大小"
+// @Param	status	query	int4	true	"状态"
+// @Param	keywords	query	string	false	"查询关键词"
 // @Description 列表查询
 // @Success 200 {object} models.WorkRemind
 // @router /list [get]
@@ -41,7 +45,7 @@ func (that *WorkRemindController) List() {
 	limit, _ := that.GetInt("limit", 20)
 	status, _ := that.GetInt("status", -1)
 	keywords := that.GetString("keywords", "")
-	var memid int64
+	var memid int64 = 1
 	list, total, _ := models.QueryWrList(limit, page, memid, status, keywords)
 	that.Layuiok("获取成功", total, &list)
 }
@@ -55,6 +59,7 @@ func (that *WorkRemindController) List() {
 func (u *WorkRemindController) Get() {
 	id := u.GetString(":id")
 	if id != "" {
+		fmt.Println("id====>" + id)
 		workRemind := models.FetchWr(id)
 		u.Data["json"] = workRemind
 		u.Success("获取成功", 1, &workRemind)
